@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1668900065 source:c:\ece\ing 2\theorie des graphes\projet_v1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
+1669242782 source:c:\users\heitz\desktop\projet_v1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
