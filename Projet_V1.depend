@@ -5,9 +5,27 @@
 	<allegro.h>
 	<time.h>
 
-1669242782 source:c:\users\heitz\desktop\projet_v1\main.c
+1669376247 source:c:\users\heitz\desktop\projet_v1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<allegro.h>
 	<time.h>
+
+1669497479 source:c:\users\heitz\desktop\ece city\main.c
+	"header.h"
+
+1669521467 c:\users\heitz\desktop\ece city\header.h
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
+1669493655 source:c:\users\heitz\desktop\ece city\affichage_jeu.c
+	"header.h"
+
+1669496546 source:c:\users\heitz\desktop\ece city\menu.c
+	"header.h"
+
+1669501113 source:c:\users\heitz\desktop\ece city\jouer.c
+	"header.h"
 
