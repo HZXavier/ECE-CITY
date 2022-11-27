@@ -49,6 +49,8 @@ void affichage_jeu(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, B
     textprintf_ex(doublebuffer, font, 100, 705, makecol(255, 255, 255), -1, "ARGENT : %d", ville->ECEflouz);
     textprintf_ex(doublebuffer, font, 300, 705, makecol(255, 255, 255), -1, "NOMBRE HABITANTS : %d", ville->habitantTOT);
     textprintf_ex(doublebuffer, font, 500, 705, makecol(255, 255, 255), -1, "NOMBRE BATIMENTS : %d", ville->nbBatiment);
+    textprintf_ex(doublebuffer, font, 700, 705, makecol(255, 255, 255), -1, "EauTOT : %d", ville->alimEauTot);
+    textprintf_ex(doublebuffer, font, 850, 705, makecol(255, 255, 255), -1, "ElecTOT : %d", ville->alimElecTot);
     int compteur = temps();
     textprintf_ex(doublebuffer, font, 1010, 60, makecol(255, 255, 255), -1, "%d", compteur);
     for (int i = 0; i < 46; i++)

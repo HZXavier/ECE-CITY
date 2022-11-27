@@ -1,16 +1,18 @@
 #include "header.h"
 
-void init_batiment(t_ville *ville)
+void init_batiment( t_ville * ville)
 {
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 0) // Cas d'un terrain vague
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 0)//Cas d'un terrain vague
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].coutAchat = 1000;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].tailleX = 3;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].tailleY = 3;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitEau = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitElec = 0;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 2;
+
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 1) // Cas d'une centrale
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 1)//Cas d'une centrale
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].coutAchat = 100000;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].tailleX = 4;
@@ -18,9 +20,9 @@ void init_batiment(t_ville *ville)
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitEau = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitElec = 5000;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 5;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 6;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 2) // Cas d'un chateau d'eau
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 2)//Cas d'un chateau d'eau
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].coutAchat = 100000;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].tailleX = 4;
@@ -28,9 +30,9 @@ void init_batiment(t_ville *ville)
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitEau = 5000;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitElec = 0;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 6;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 7;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 3) // Cas d'une route
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 3)//Cas d'une route
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].coutAchat = 10;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].tailleX = 1;
@@ -40,44 +42,50 @@ void init_batiment(t_ville *ville)
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitElec = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 0;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 0)
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 0)
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 0;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 1)
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 1)
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 0;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 0;
+    }
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 2)
+    {
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 250;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 250;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 10;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 2)
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 3)
     {
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 0;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 0;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 500;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 500;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 50;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 3)
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 4)
     {
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 0;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 0;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 1000;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 1000;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 100;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 4)
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 5)
     {
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 0;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 0;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 2000;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 2000;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 1000;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 5)
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 6)
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].alimElec = 5000;
     }
-    if (ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 6)
+    if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 7)
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 0;
@@ -91,6 +99,8 @@ void init_ville(t_ville *ville)
     ville->ECEflouz = 500000;
     ville->habitantTOT = 0;
     ville->nbBatiment = 0;
+    ville->alimEauTot = 0;
+    ville->alimElecTot = 0;
 }
 
 int temps()
@@ -155,7 +165,19 @@ void ajouterBatiment(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer,
                     if (tmp == 0 && (tmp2 != 0 || ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 3))
                     {
                         ville->ECEflouz = ville->ECEflouz - ville->ttelesmaisonsdelaville[ville->nbBatiment].coutAchat;
+
                         ville->habitantTOT = ville->habitantTOT + ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant;
+
+                        if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 1)
+                        {
+                            ville->alimElecTot = ville->alimElecTot + ville->ttelesmaisonsdelaville[ville->nbBatiment].debitElec;
+                            printf("elecTOT : %d", ville->alimElecTot);
+                        }
+                        if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 2)
+                        {
+                            ville->alimEauTot = ville->alimEauTot + ville->ttelesmaisonsdelaville[ville->nbBatiment].debitEau;
+                            printf("eauTOT : %d", ville->alimEauTot);
+                        }
                         ville->ttelesmaisonsdelaville[ville->nbBatiment].numeroCaseX = mouse_x / 20;
                         ville->ttelesmaisonsdelaville[ville->nbBatiment].numeroCaseY = mouse_y / 20;
                         for (int i = 0; i < ville->ttelesmaisonsdelaville[ville->nbBatiment].tailleY; i++)
@@ -184,6 +206,8 @@ void ajouterBatiment(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer,
         }
         printf("\n");
     }
+    printf("////////////////////////////////");
+    printf("\n");
 }
 
 int verification_placement(int mouse_x, int mouse_y, int tabarene[35][45], t_ville *ville)
@@ -322,8 +346,9 @@ void jouer(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, BITMAP *c
         }
         compteur = temps();
         affichage_jeu(ville, tabarene, doublebuffer, curseur);
+
+        //if()
     }
-    printf("\nactualisation des etats");
     jouer(ville, tabarene, doublebuffer, curseur, incremente + 1);
 }
 
