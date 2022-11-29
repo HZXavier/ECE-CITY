@@ -1,19 +1,19 @@
 #include "header.h"
 
-void menu_jeu(t_ville *ville, int tabarene[35][45], int incremente) // rentre dans ce sous programme lorsque auparavant l'utilisateur appuie sur echap
+void menu_jeu(t_ville *ville, int tabarene[35][45], int incremente) // rentre dans ce sous programme lorsque auparavant l'utilisateur appuie sur le bouton en haut à droite
 {
-    BITMAP *boutonReprendre;
-    BITMAP *boutonQuitter;
-    BITMAP *boutonSauvegarder;
-    BITMAP *fondmenu;
-    BITMAP *curseur;
-    boutonQuitter = load_bitmap("BTQ.bmp", NULL);
-    boutonReprendre = load_bitmap("BTRPE.bmp", NULL);
-    boutonSauvegarder = load_bitmap("BTSVG.bmp", NULL);
-    fondmenu = load_bitmap("FondMenu.bmp", NULL);
-    curseur = load_bitmap("Curseur.bmp", NULL);
+    BITMAP *boutonReprendre; //déclaration du bouton pour reprendre
+    BITMAP *boutonQuitter;  //déclaration du bouton pour quitter
+    BITMAP *boutonSauvegarder; //déclaration du bouton de sauvegarde
+    BITMAP *fondmenu; //déclaration du fond
+    BITMAP *curseur;//déclaration du bouton
+    boutonQuitter = load_bitmap("BTQ.bmp", NULL); //charge l'image bmp associé au bouton quitter
+    boutonReprendre = load_bitmap("BTRPE.bmp", NULL); //charge l'image bmp associé au bouton reprendre
+    boutonSauvegarder = load_bitmap("BTSVG.bmp", NULL); //charge l'image bmp associé au bouton sauvegarde
+    fondmenu = load_bitmap("FondMenu.bmp", NULL); //charge l'image bmp associé au fond du menu
+    curseur = load_bitmap("Curseur.bmp", NULL); //charge l'image bmp associé au curseur
     BITMAP *doublebuffer = create_bitmap(1024, 768);
-    int quitter = 0;
+    int quitter = 0; //déclaration de la variable quitter
     while (quitter == 0)
     {
         blit(fondmenu, doublebuffer, 0, 0, 0, 0, 1024, 768);
@@ -24,13 +24,10 @@ void menu_jeu(t_ville *ville, int tabarene[35][45], int incremente) // rentre da
         {
             if (mouse_x > 400 && mouse_x < 400 + boutonReprendre->w && mouse_y > 350 && mouse_y < 350 + boutonReprendre->h) // clique sur le bouton reprendre
             {
-                printf("jouer");
                 quitter = 1; // quitte le while et reprend dans le sous  prog jouer
             }
             if (mouse_x > 400 && mouse_x < 400 + boutonSauvegarder->w && mouse_y > 450 && mouse_y < 450 + boutonSauvegarder->h) // clique sur le bouton sauvegarder
             {
-                printf("sauvegarde");
-                // exit(0);
                 sauvegarder_partie(ville, tabarene);
                 quitter = 1;
             }
@@ -83,17 +80,19 @@ void menu_debut(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, BITM
                 masked_blit(boutonCapitaliste, doublebuffer, 0, 0, 380, 450, 380 + boutonCapitaliste->w, 450 + boutonCapitaliste->h); // affiche le logo jouer
                 masked_blit(boutonRegles, doublebuffer, 0, 0, 380, 550, 380 + boutonRegles->w, 550 + boutonRegles->h);                // affiche le logo jouer
                 masked_blit(curseur, doublebuffer, 0, 0, mouse_x, mouse_y, 1024, 768);                                                // affiche le curseur
-                if (mouse_x > 380 && mouse_x < 380 + boutonCommuniste->w && mouse_y > 350 && mouse_y < 350 + boutonCommuniste->h && mouse_b & 1)
+                if (mouse_x > 380 && mouse_x < 380 + boutonCommuniste->w && mouse_y > 350 && mouse_y < 350 + boutonCommuniste->h && mouse_b & 1) //choix du mode de jeu communiste
                 {
                     delay(0.1);
+                    ville->mode = 0;
                     jouer(ville, tabarene, doublebuffer, curseur, incremente);
                 }
-                if (mouse_x > 380 && mouse_x < 380 + boutonCapitaliste->w && mouse_y > 450 && mouse_y < 450 + boutonCapitaliste->h && mouse_b & 1)
+                if (mouse_x > 380 && mouse_x < 380 + boutonCapitaliste->w && mouse_y > 450 && mouse_y < 450 + boutonCapitaliste->h && mouse_b & 1) //choix du mode de jeu capitaliste
                 {
                     delay(0.1);
+                    ville->mode = 0;
                     jouer(ville, tabarene, doublebuffer, curseur, incremente);
                 }
-                if (mouse_x > 380 && mouse_x < 380 + boutonRegles->w && mouse_y > 550 && mouse_y < 550 + boutonRegles->h && mouse_b & 1)
+                if (mouse_x > 380 && mouse_x < 380 + boutonRegles->w && mouse_y > 550 && mouse_y < 550 + boutonRegles->h && mouse_b & 1) //affichage des regles du jeu
                 {
                     int rester = 1;
                     delay(0.1);
@@ -132,6 +131,7 @@ void menu_debut(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, BITM
     }
 }
 
+//sous-programme de sauvegarde d'une partie qui récupere toutes les valeursliés aux structures t_ville et t_bat
 void sauvegarder_partie(t_ville *ville, int tabarene[35][45])
 {
     FILE *sauvegarder = NULL;
@@ -155,9 +155,17 @@ void sauvegarder_partie(t_ville *ville, int tabarene[35][45])
         fprintf(sauvegarder, "%d\n", ville->ttelesmaisonsdelaville[j].tailleX);
         fprintf(sauvegarder, "%d\n", ville->ttelesmaisonsdelaville[j].tailleY);
     }
+    for (int i = 0; i < 35; i++)
+    {
+        for (int j = 0; j < 45; j++)
+        {
+            fprintf(sauvegarder, "%d", tabarene[i][j]);
+        }
+    }
     fclose(sauvegarder);
 }
 
+//sous-programme qui permet de charger une partie sauvegarder
 void charger_partie(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, BITMAP *curseur, int incremente)
 {
     FILE *newGame = NULL;
@@ -187,6 +195,13 @@ void charger_partie(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, 
             fscanf(newGame, "%d ", &ville->ttelesmaisonsdelaville[j].numeroCaseY);
             fscanf(newGame, "%d ", &ville->ttelesmaisonsdelaville[j].tailleX);
             fscanf(newGame, "%d ", &ville->ttelesmaisonsdelaville[j].tailleY);
+        }
+        for (int i = 0; i < 35; i++)
+        {
+            for (int j = 0; j < 45; j++)
+            {
+                fscanf(newGame, "%d", &tabarene[i][j]);
+            }
         }
         fclose(newGame);
         jouer(ville, tabarene, doublebuffer, curseur, incremente);

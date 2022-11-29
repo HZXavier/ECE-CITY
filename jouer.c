@@ -2,6 +2,12 @@
 
 void init_batiment( t_ville * ville)
 {
+    FILE * donnees;
+    donnees = fopen("Donnees.txt","r");
+    int un;
+    int deux;
+    int trois;
+    int quatre;
     if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 0)//Cas d'un terrain vague
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].coutAchat = 1000;
@@ -9,8 +15,6 @@ void init_batiment( t_ville * ville)
         ville->ttelesmaisonsdelaville[ville->nbBatiment].tailleY = 3;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitEau = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].debitElec = 0;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 2;
-
     }
     if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 1)//Cas d'une centrale
     {
@@ -50,33 +54,43 @@ void init_batiment( t_ville * ville)
     }
     if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 1)
     {
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 0;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 0;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 0;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 100;
+        ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 100;
+        fscanf(donnees, "%d", &ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant);
     }
     if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 2)
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 250;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 250;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 10;
+        fscanf(donnees, "%d", &un);
+        fscanf(donnees, "%d", &ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant);
     }
     if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 3)
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 500;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 500;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 50;
+        fscanf(donnees, "%d", &un);
+        fscanf(donnees, "%d", &deux);
+        fscanf(donnees, "%d", &ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant);
     }
     if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 4)
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 1000;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 1000;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 100;
+        fscanf(donnees, "%d", &un);
+        fscanf(donnees, "%d", &deux);
+        fscanf(donnees, "%d", &trois);
+        fscanf(donnees, "%d", &ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant);
     }
     if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 5)
     {
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau = 2000;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec = 2000;
-        ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 1000;
+        fscanf(donnees, "%d", &un);
+        fscanf(donnees, "%d", &deux);
+        fscanf(donnees, "%d", &trois);
+        fscanf(donnees, "%d", &quatre);
+        fscanf(donnees, "%d", &ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant);
     }
     if(ville->ttelesmaisonsdelaville[ville->nbBatiment].etat == 6)
     {
@@ -92,6 +106,9 @@ void init_batiment( t_ville * ville)
         ville->ttelesmaisonsdelaville[ville->nbBatiment].nbHabitant = 0;
         ville->ttelesmaisonsdelaville[ville->nbBatiment].alimEau = 5000;
     }
+    ville->besoinElecTot += ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinElec;
+    ville->besoinEauTot += ville->ttelesmaisonsdelaville[ville->nbBatiment].besoinEau;
+    fclose(donnees);
 }
 
 void init_ville(t_ville *ville)
@@ -101,6 +118,9 @@ void init_ville(t_ville *ville)
     ville->nbBatiment = 0;
     ville->alimEauTot = 0;
     ville->alimElecTot = 0;
+    ville->besoinEauTot = 0;
+    ville->besoinElecTot = 0;
+    ville->nbRoute = 0;
 }
 
 int temps()
@@ -152,7 +172,7 @@ void ajouterBatiment(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer,
         affichage_jeu(ville, tabarene, doublebuffer, curseur);
         if (mouse_b & 1)
         {
-            if (mouse_x >= 0 && mouse_x <= 900 && mouse_y >= 0 && mouse_y <= 700)
+            if (mouse_x >= 0 && mouse_x <= 901 && mouse_y >= 0 && mouse_y <= 701)
             {
                 int clique_x = mouse_x;
                 int clique_y = mouse_y;
@@ -171,12 +191,10 @@ void ajouterBatiment(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer,
                         if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 1)
                         {
                             ville->alimElecTot = ville->alimElecTot + ville->ttelesmaisonsdelaville[ville->nbBatiment].debitElec;
-                            printf("elecTOT : %d", ville->alimElecTot);
                         }
                         if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 2)
                         {
                             ville->alimEauTot = ville->alimEauTot + ville->ttelesmaisonsdelaville[ville->nbBatiment].debitEau;
-                            printf("eauTOT : %d", ville->alimEauTot);
                         }
                         ville->ttelesmaisonsdelaville[ville->nbBatiment].numeroCaseX = mouse_x / 20;
                         ville->ttelesmaisonsdelaville[ville->nbBatiment].numeroCaseY = mouse_y / 20;
@@ -190,6 +208,10 @@ void ajouterBatiment(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer,
                                     tabarene[ville->ttelesmaisonsdelaville[ville->nbBatiment].numeroCaseY + i][ville->ttelesmaisonsdelaville[ville->nbBatiment].numeroCaseX + j] = 1;
                             }
                         }
+                        if(ville->ttelesmaisonsdelaville[ville->nbBatiment].type == 3)
+                        {
+                            ville->nbRoute += 1;
+                        }
                         ville->nbBatiment += 1;
                         affichage_jeu(ville, tabarene, doublebuffer, curseur);
                     }
@@ -198,7 +220,7 @@ void ajouterBatiment(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer,
             sortie = 1;
         }
     }
-    for (int i = 0; i < 35; i++)
+    /*for (int i = 0; i < 35; i++)
     {
         for (int j = 0; j < 45; j++)
         {
@@ -207,7 +229,7 @@ void ajouterBatiment(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer,
         printf("\n");
     }
     printf("////////////////////////////////");
-    printf("\n");
+    printf("\n");*/
 }
 
 int verification_placement(int mouse_x, int mouse_y, int tabarene[35][45], t_ville *ville)
@@ -258,7 +280,6 @@ int verif_route(int mouse_x, int mouse_y, int tabarene[35][45], t_ville *ville)
 void jouer(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, BITMAP *curseur, int incremente)
 {
     int compteur = temps();
-    int compteur2 = 0;
     while (compteur % 15 != 0)
     {
 
@@ -306,7 +327,6 @@ void jouer(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, BITMAP *c
             play = load_bitmap("BoutonPlay.bmp", NULL);
             while (rester == 1)
             {
-                compteur2 = temps();
                 clear(doublebuffer);
                 masked_blit(fondmenu, doublebuffer, 0, 0, 0, 0, 1024, 768);
                 masked_blit(play, doublebuffer, 0, 0, 409, 282, 612, 485);
@@ -316,26 +336,25 @@ void jouer(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, BITMAP *c
                 {
                     rester = 0;
                     delay(0.1);
-                    compteur = compteur - compteur2;
                 }
             }
         }
         if (mouse_x >= 940 && mouse_x <= 940 + 60 && mouse_y >= 100 && mouse_y <= 100 + 60 && mouse_b & 1) // poser une maison
         {
             ville->ttelesmaisonsdelaville[ville->nbBatiment].type = 0;
-            ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 0;
+            ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 1;
             ajouterBatiment(ville, tabarene, doublebuffer, curseur);
         }
         if (mouse_x >= 930 && mouse_x <= 930 + 80 && mouse_y >= 200 && mouse_y <= 200 + 120 && mouse_b & 1)
         {
             ville->ttelesmaisonsdelaville[ville->nbBatiment].type = 1;
-            ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 0;
+            ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 6;
             ajouterBatiment(ville, tabarene, doublebuffer, curseur);
         }
         if (mouse_x >= 930 && mouse_x <= 930 + 80 && mouse_y >= 360 && mouse_y <= 360 + 120 && mouse_b & 1)
         {
             ville->ttelesmaisonsdelaville[ville->nbBatiment].type = 2;
-            ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 0;
+            ville->ttelesmaisonsdelaville[ville->nbBatiment].etat = 7;
             ajouterBatiment(ville, tabarene, doublebuffer, curseur);
         }
         if (mouse_x >= 960 && mouse_x <= 960 + 20 && mouse_y >= 520 && mouse_y <= 520 + 20 && mouse_b & 1)
@@ -346,9 +365,110 @@ void jouer(t_ville *ville, int tabarene[35][45], BITMAP *doublebuffer, BITMAP *c
         }
         compteur = temps();
         affichage_jeu(ville, tabarene, doublebuffer, curseur);
-
         //if()
     }
+    if(ville->mode == 0)//Si le jeu est en mode communiste
+    {
+        for(int i = 1 ; i<ville->nbBatiment ; i++)//Parcours le tableau de batiments
+        {
+            if(ville->ttelesmaisonsdelaville[i].type == 0)//Si le batiment est une maison
+            {
+                ville->habitantTOT -= ville->ttelesmaisonsdelaville[i].nbHabitant;
+                ville->besoinEauTot -= ville->ttelesmaisonsdelaville[i].besoinEau;
+                ville->besoinElecTot -= ville->ttelesmaisonsdelaville[i].besoinElec;
+                if(ville->alimEauTot >= ville->besoinEauTot && ville->alimElecTot >= ville->besoinElecTot)
+                {
+                    if(ville->ttelesmaisonsdelaville[i].etat <= 4)//Si il n'est pas deja évolué au maximum
+                    {
+                        ville->ttelesmaisonsdelaville[i].etat += 1;//Passe à l'etat supérieur
+                        if(ville->ttelesmaisonsdelaville[i].etat == 1)
+                        {
+                            ville->ttelesmaisonsdelaville[i].besoinEau = 100;
+                            ville->ttelesmaisonsdelaville[i].besoinElec = 100;
+                            ville->ttelesmaisonsdelaville[i].nbHabitant = 0;
+                        }
+                        if(ville->ttelesmaisonsdelaville[i].etat == 2)
+                        {
+                            ville->ttelesmaisonsdelaville[i].besoinEau = 250;
+                            ville->ttelesmaisonsdelaville[i].besoinElec = 250;
+                            ville->ttelesmaisonsdelaville[i].nbHabitant = 10;
+                        }
+                        if(ville->ttelesmaisonsdelaville[i].etat == 3)
+                        {
+                            ville->ttelesmaisonsdelaville[i].besoinEau = 500;
+                            ville->ttelesmaisonsdelaville[i].besoinElec = 500;
+                            ville->ttelesmaisonsdelaville[i].nbHabitant = 50;
+                        }
+                        if(ville->ttelesmaisonsdelaville[i].etat == 4)
+                        {
+                            ville->ttelesmaisonsdelaville[i].besoinEau = 1000;
+                            ville->ttelesmaisonsdelaville[i].besoinElec = 1000;
+                            ville->ttelesmaisonsdelaville[i].nbHabitant = 100;
+                        }
+                        if(ville->ttelesmaisonsdelaville[i].etat == 5)
+                        {
+                            ville->ttelesmaisonsdelaville[i].besoinEau = 2000;
+                            ville->ttelesmaisonsdelaville[i].besoinElec = 2000;
+                            ville->ttelesmaisonsdelaville[i].nbHabitant = 1000;
+                        }
+                    }
+                }
+                ville->habitantTOT += ville->ttelesmaisonsdelaville[i].nbHabitant;
+                ville->ECEflouz += 10*ville->ttelesmaisonsdelaville[i].nbHabitant;
+                ville->besoinEauTot += ville->ttelesmaisonsdelaville[i].besoinEau;
+                ville->besoinElecTot += ville->ttelesmaisonsdelaville[i].besoinElec;
+            }
+        }
+        delay(1);
+    }
+    if(ville->mode == 1)//Si le jeu est en mode capitaliste
+    {
+        for(int i = 1 ; i<ville->nbBatiment ; i++)
+        {
+            if(ville->ttelesmaisonsdelaville[i].type == 0)
+            {
+                if(ville->ttelesmaisonsdelaville[i].etat <= 4)
+                {
+                    ville->habitantTOT -= ville->ttelesmaisonsdelaville[i].nbHabitant;
+                    ville->ttelesmaisonsdelaville[i].etat += 1;
+                    if(ville->ttelesmaisonsdelaville[i].etat == 1)
+                    {
+                        ville->ttelesmaisonsdelaville[i].besoinEau = 100;
+                        ville->ttelesmaisonsdelaville[i].besoinElec = 100;
+                        ville->ttelesmaisonsdelaville[i].nbHabitant = 0;
+                    }
+                    if(ville->ttelesmaisonsdelaville[i].etat == 2)
+                    {
+                        ville->ttelesmaisonsdelaville[i].besoinEau = 250;
+                        ville->ttelesmaisonsdelaville[i].besoinElec = 250;
+                        ville->ttelesmaisonsdelaville[i].nbHabitant = 10;
+                    }
+                    if(ville->ttelesmaisonsdelaville[i].etat == 3)
+                    {
+                        ville->ttelesmaisonsdelaville[i].besoinEau = 500;
+                        ville->ttelesmaisonsdelaville[i].besoinElec = 500;
+                        ville->ttelesmaisonsdelaville[i].nbHabitant = 50;
+                    }
+                    if(ville->ttelesmaisonsdelaville[i].etat == 4)
+                    {
+                        ville->ttelesmaisonsdelaville[i].besoinEau = 1000;
+                        ville->ttelesmaisonsdelaville[i].besoinElec = 1000;
+                        ville->ttelesmaisonsdelaville[i].nbHabitant = 100;
+                    }
+                    if(ville->ttelesmaisonsdelaville[i].etat == 5)
+                    {
+                        ville->ttelesmaisonsdelaville[i].besoinEau = 2000;
+                        ville->ttelesmaisonsdelaville[i].besoinElec = 2000;
+                        ville->ttelesmaisonsdelaville[i].nbHabitant = 1000;
+                    }
+                    ville->habitantTOT += ville->ttelesmaisonsdelaville[i].nbHabitant;
+                    ville->ECEflouz += 10*ville->ttelesmaisonsdelaville[i].nbHabitant;
+                }
+            }
+        }
+        delay(1);
+    }
+    affichage_jeu(ville, tabarene, doublebuffer, curseur);
     jouer(ville, tabarene, doublebuffer, curseur, incremente + 1);
 }
 

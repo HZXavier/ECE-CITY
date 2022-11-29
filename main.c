@@ -37,7 +37,6 @@ int main()
     }
     // Programme qui affiche le menu
     menu_debut(&ville, tabarene, doublebuffer, curseur, incremente);
-    free(ville.ttelesmaisonsdelaville);
     allegro_exit();
     return 0;
 }
